@@ -6,19 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class AddMemberController {
-    Connection connection;
+    Connection connection = dbDBMSconnection.getConnection();
 
-    {
-        try {
-            connection = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/library_management_system",
-                    "root",
-                    "Kashmika@2006");
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
- public void addMember(String memberID, String fullName, String email, String phoneNumber, String address){
+    public void addMember(String memberID, String fullName, String email, String phoneNumber, String address){
 
         String SQL = "INSERT INTO members ( memberId,fullName,email,phoneNumber,address) VALUES (?,?,?,?,?)";
      try {

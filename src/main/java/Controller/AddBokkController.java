@@ -6,21 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class AddBokkController {
-    Connection connection;
 
-    {
-        try {
-            connection = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/library_management_system",
-                    "root",
-                    "Kashmika@2006");
+    Connection connection = dbDBMSconnection.getConnection();
 
-
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
     public void addBook(String bookId, String bookTitle, String author, String category, String publishedYear, String quantity){
         String SQL = "INSERT INTO books(bookId,bookTitle,author,category,publishedYear,quantity) values (?,?,?,?,?,?)";
         try {
