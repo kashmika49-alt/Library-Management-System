@@ -14,7 +14,7 @@
          </image>
       </ImageView>
       <TextField fx:id="txtUserName" layoutX="277.0" layoutY="140.0" />
-      <TextField fx:id="txtPassword" layoutX="276.0" layoutY="180.0" prefHeight="6.0" prefWidth="150.0" />
+      <TextField fx:id="txtPassword" layoutX="276.0" layoutY="180.0" onKeyPressed="#LogInOnKeyAction" prefHeight="6.0" prefWidth="150.0" />
       <Button fx:id="btnLogin" contentDisplay="CENTER" layoutX="276.0" layoutY="229.0" mnemonicParsing="false" onAction="#btnActionLogin" prefHeight="26.0" prefWidth="150.0" text="Button" textFill="#10c6eb" visible="false" />
       <Button fx:id="btnLogin" layoutX="277.0" layoutY="229.0" mnemonicParsing="false" onAction="#btnActionLogin" prefHeight="26.0" prefWidth="150.0" style="-fx-background-color: #2196F3;" styleClass="-" text="Login" textFill="WHITE" />
    </children>
