@@ -19,6 +19,8 @@ import java.lang.reflect.Member;
 import java.util.ArrayList;
 
 public class MainDashboardController {
+   AddMemberController addMemberController = new AddMemberController();
+
     public static Member[] members = new Member[100];
     public static int memberCount = 0 ;
     @FXML
@@ -149,11 +151,7 @@ public class MainDashboardController {
 
     @FXML
     void btnActionAddMember(ActionEvent event) {
-        String memberID = txtMemberId.getText();
-        String fullName = txtFullName.getText();
-        String email = txtEmail.getText();
-        String phoneNumber = txtPhoneNumber.getText();
-        String address = txtAddress.getText();
+        addMemberController.addMember(txtMemberId.getText(),txtFullName.getText(),txtEmail.getText(),txtPhoneNumber.getText(),txtAddress.getText());
 
 
 
