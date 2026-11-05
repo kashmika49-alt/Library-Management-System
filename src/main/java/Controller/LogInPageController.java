@@ -38,14 +38,7 @@ public class LogInPageController {
     }
 
     public void LogInOnKeyAction(KeyEvent keyEvent) {
-        if (logInController.checkUserNameAndPassword(txtUserName.getText(),txtPassword.getText())) {
-            try {
-                mainDashboardStage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/MainDashboard.fxml"))));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        mainDashboardStage.show();
+
     }
 
 //    private boolean CheckLogin(String userName, String password) {

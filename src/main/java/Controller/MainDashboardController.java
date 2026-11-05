@@ -20,7 +20,7 @@ import java.util.ArrayList;
 
 public class MainDashboardController {
    AddMemberController addMemberController = new AddMemberController();
-
+    AddBokkController addBokkController = new AddBokkController();
     public static Member[] members = new Member[100];
     public static int memberCount = 0 ;
     @FXML
@@ -138,15 +138,7 @@ public class MainDashboardController {
 
     @FXML
     void btnActionAddBook(ActionEvent event) {
-
-        String bookId = txtBookId.getText();
-        String bookTitle = txtBookTitle.getText();
-        String author = txtAuthor.getText();
-        String category = txtCategory.getText();
-        String publishedYear = txtPublishedYear.getText();
-        String qty = txtQuantity.getText();
-
-
+        addBokkController.addBook(txtBookId.getText(),txtBookTitle.getText(),txtAuthor.getText(),txtCategory.getText(),txtPublishedYear.getText(),txtQuantity.getText());
     }
 
     @FXML
