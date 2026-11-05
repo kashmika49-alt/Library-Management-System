@@ -23,34 +23,13 @@ public class LogInPageController {
 
     @FXML
     void btnActionLogin(ActionEvent event) {
-        String userName = txtUserName.getText();
-        String password = txtPassword.getText();
-        boolean b = CheckLogin(userName,password);
 
-        if (b){
-            Stage stage = new Stage();
-            try {
-                stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/MainDashboard.fxml"))));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            stage.show();
-        }
-        else {
-            Stage stage = new Stage();
-            try {
-                stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/LogInIncorrect.fxml"))));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            stage.show();
-        }
     }
 
-    private boolean CheckLogin(String userName, String password) {
-    if (userName.equals("kashmika") && password.equals("1234")){
-        return true;
-    }
-        return false;
-    }
+//    private boolean CheckLogin(String userName, String password) {
+//    if (userName.equals("kashmika") && password.equals("1234")){
+//        return true;
+//    }
+//        return false;
+//    }
 }
