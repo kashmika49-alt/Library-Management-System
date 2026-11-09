@@ -1,16 +1,10 @@
 package Controller;
-
+import javafx.scene.control.ChoiceBox;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
@@ -20,11 +14,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 public class MainDashboardController {
    AddMemberController addMemberController = new AddMemberController();
     AddBokkController addBokkController = new AddBokkController();
+    IssueBookController issueBookController = new IssueBookController();
+
+
     public static Member[] members = new Member[100];
     public static int memberCount = 0 ;
     @FXML
@@ -43,7 +39,7 @@ public class MainDashboardController {
     private DatePicker DateReturnDate;
 
     @FXML
-    private ChoiceBox<?> SelectBook;
+    private ChoiceBox<String> SelectBook;
 
     @FXML
     private ChoiceBox<String> SelectMember;
@@ -146,6 +142,75 @@ public class MainDashboardController {
     void DragMember(MouseEvent event) {
 
     }
+  //  @FXML
+   // private Tab IssueBook_Tab;
+
+    @FXML
+//    public void initialize(){
+//        IssueBook_Tab.setOnSelectionChanged(event -> {
+//            if (IssueBook_Tab.isSelected()){
+//            //loadMembers();
+//            }
+
+ //       });
+ //   }
+
+
+
+    public void loadMembers() {
+
+        String SQL = "SELECT fullname FROM members";
+
+        try {
+            Connection connection = dbDBMSconnection.getConnection();
+
+            PreparedStatement ps = connection.prepareStatement(SQL);
+            ResultSet rs = ps.executeQuery();
+
+            SelectMember.getItems().clear();
+
+            while (rs.next()) {
+                SelectMember.getItems().add(rs.getString("fullname"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public void loadBooks() {
+
+        String SQL = "SELECT bookTitle FROM books";
+
+        if (SelectBook == null) {
+            System.out.println("SelectBook ChoiceBox is not connected!");
+            return;
+        }
+
+        try (Connection connection = dbDBMSconnection.getConnection();
+             PreparedStatement ps = connection.prepareStatement(SQL);
+             ResultSet rs = ps.executeQuery()) {
+
+            SelectBook.getItems().clear();
+
+            while (rs.next()) {
+
+                String bookTitle = rs.getString("bookTitle");
+
+                SelectBook.getItems().add(bookTitle);
+
+            }
+
+            System.out.println("Books loaded successfully!");
+
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+
+        }
+    }
+
 
     @FXML
     void btnActionAddBook(ActionEvent event) {
@@ -186,7 +251,7 @@ public class MainDashboardController {
 
     @FXML
     void btnActionIssueBook(ActionEvent event) {
-
+    issueBookController.issueBook(SelectMember.getValue(),SelectBook.getValue(),DateIssueDate.getValue(),DateDueDate.getValue());
     }
 
     @FXML
@@ -206,5 +271,15 @@ public class MainDashboardController {
     }
 
     public void btnClearAddBookOnAction(ActionEvent actionEvent) {
+    }
+
+    public void BtnloadBooks(ActionEvent actionEvent) {
+
+        loadMembers();
+
+        }
+
+    public void btnLoadMember(ActionEvent actionEvent) {
+        loadBooks();
     }
 }

@@ -403,6 +403,16 @@
                               </Button>
                            </children>
                         </Pane>
+                        <Button fx:id="loadMembers" layoutX="336.0" layoutY="81.0" mnemonicParsing="false" onAction="#BtnloadBooks" prefHeight="22.0" prefWidth="82.0" text="Load Members">
+                           <font>
+                              <Font size="10.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="loadBooks" layoutX="337.0" layoutY="155.0" mnemonicParsing="false" onAction="#btnLoadMember" prefHeight="22.0" prefWidth="80.0" text="Load Books">
+                           <font>
+                              <Font size="10.0" />
+                           </font>
+                        </Button>
                      </children></AnchorPane>
               </content>
             </Tab>
