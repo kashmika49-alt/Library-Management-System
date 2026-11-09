@@ -56,7 +56,7 @@
                               <Font name="Tw Cen MT Italic" size="20.0" />
                            </font>
                         </Label>
-                        <Label layoutX="166.0" layoutY="77.0" text="120">
+                        <Label fx:id="TotalBooks_Dashboard" layoutX="166.0" layoutY="77.0" text="120">
                            <font>
                               <Font name="Tw Cen MT" size="20.0" />
                            </font>
@@ -66,7 +66,7 @@
                               <Font name="Tw Cen MT Italic" size="20.0" />
                            </font>
                         </Label>
-                        <Label layoutX="172.0" layoutY="132.0" text="25">
+                        <Label fx:id="TotalMembers_Dashboard" layoutX="172.0" layoutY="132.0" text="25">
                            <font>
                               <Font name="Tw Cen MT" size="20.0" />
                            </font>
@@ -210,7 +210,7 @@
                               </Button>
                            </children>
                         </Pane>
-                        <Button fx:id="btnClearAddBook" layoutX="66.0" layoutY="267.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="69.0" text="Clear" />
+                        <Button fx:id="btnClearAddBook" layoutX="66.0" layoutY="267.0" mnemonicParsing="false" onAction="#btnClearAddBookOnAction" prefHeight="26.0" prefWidth="69.0" text="Clear" />
                      </children>
                   </AnchorPane>
             </content>

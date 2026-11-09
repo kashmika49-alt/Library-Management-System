@@ -16,6 +16,10 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.lang.reflect.Member;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class MainDashboardController {
@@ -42,7 +46,7 @@ public class MainDashboardController {
     private ChoiceBox<?> SelectBook;
 
     @FXML
-    private ChoiceBox<?> SelectMember;
+    private ChoiceBox<String> SelectMember;
 
     @FXML
     private TableView<?> TableBorrowingHistory;
@@ -132,6 +136,13 @@ public class MainDashboardController {
     private Label txtTotalMembers;
 
     @FXML
+    private Label TotalMembers_Dashboard;
+
+
+    @FXML
+    private Label TotalBooks_Dashboard;
+
+    @FXML
     void DragMember(MouseEvent event) {
 
     }
@@ -139,11 +150,35 @@ public class MainDashboardController {
     @FXML
     void btnActionAddBook(ActionEvent event) {
         addBokkController.addBook(txtBookId.getText(),txtBookTitle.getText(),txtAuthor.getText(),txtCategory.getText(),txtPublishedYear.getText(),txtQuantity.getText());
+        Connection connection = dbDBMSconnection.getConnection();
+        String SQL = "select count(*) from books;";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()){
+               int count = resultSet.getInt(1);
+               TotalBooks_Dashboard.setText(String.valueOf(count));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @FXML
     void btnActionAddMember(ActionEvent event) {
         addMemberController.addMember(txtMemberId.getText(),txtFullName.getText(),txtEmail.getText(),txtPhoneNumber.getText(),txtAddress.getText());
+        Connection connection = dbDBMSconnection.getConnection();
+        String SQL = "select count(*) from members;";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()){
+                int count = resultSet.getInt(1);
+                TotalMembers_Dashboard.setText(String.valueOf(count));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
 
 
@@ -170,4 +205,6 @@ public class MainDashboardController {
 
     }
 
+    public void btnClearAddBookOnAction(ActionEvent actionEvent) {
+    }
 }
