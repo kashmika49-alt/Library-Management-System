@@ -9,20 +9,24 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.lang.reflect.Member;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+
 
 public class MainDashboardController {
-   AddMemberController addMemberController = new AddMemberController();
+
+    AddMemberController addMemberController = new AddMemberController();
     AddBokkController addBokkController = new AddBokkController();
     IssueBookController issueBookController = new IssueBookController();
+    ReturnBookController returnBookController = new ReturnBookController();
+    ManageMemberController manageMemberController = new ManageMemberController();
+    BorrowingHistory borrowingHistory = new BorrowingHistory();
 
-
-    public static Member[] members = new Member[100];
-    public static int memberCount = 0 ;
     @FXML
     private DatePicker DateBorrowedDate;
 
@@ -45,23 +49,35 @@ public class MainDashboardController {
     private ChoiceBox<String> SelectMember;
 
     @FXML
-    private TableView<?> TableBorrowingHistory;
+    private TableView<ObservableList<String>> TableBorrowingHistory;
 
     @FXML
-    private TableColumn<?, ?> TableColoumnEmail;
+    private TableView<ObservableList<String>> TableManageMembers;
 
     @FXML
-    private TableColumn<?, ?> TableColoumnMemberId;
+    private TableColumn<ObservableList<String>, String> TableColumnMemberId;
 
     @FXML
-    private TableColumn<?, ?> TableColoumnMemberName;
+    private TableColumn<ObservableList<String>, String> TableColumnMemberName;
 
     @FXML
-    private TableColumn<?, ?> TableColoumnPhoneNumber;
+    private TableColumn<ObservableList<String>, String> TableColumnPhoneNumber;
 
     @FXML
-    private TableView<?> TableManageMembers;
+    private TableColumn<ObservableList<String>, String> TableColumnEmail;
+//Borrowing book table-----------------------------------------------------------------------------------------------
+@FXML
+private TableColumn<ObservableList<String>, String> TableColumnBookTitle;
 
+    @FXML
+    private TableColumn<ObservableList<String>, String> TableColumnDueDate;
+
+    @FXML
+    private TableColumn<ObservableList<String>, String> TableColumnIssueDate;
+
+    @FXML
+    private TableColumn<ObservableList<String>, String> TableColumnMemberIdB;
+//----------------------------------------------------------------------------------------------------------------------
     @FXML
     private Button btnAddBook;
 
@@ -100,6 +116,9 @@ public class MainDashboardController {
 
     @FXML
     private Label txtCurrentlyBorrowedBooks;
+
+    @FXML
+    private Label CurrentlyBorrowedBooks_Dashboard;
 
     @FXML
     private TextField txtEmail;
@@ -145,15 +164,60 @@ public class MainDashboardController {
   //  @FXML
    // private Tab IssueBook_Tab;
 
-    @FXML
-//    public void initialize(){
-//        IssueBook_Tab.setOnSelectionChanged(event -> {
-//            if (IssueBook_Tab.isSelected()){
-//            //loadMembers();
-//            }
 
- //       });
- //   }
+    @FXML
+    public void initialize() {
+
+        TableColumnMemberId.setCellValueFactory(
+                cell -> new javafx.beans.property.SimpleStringProperty(
+                        cell.getValue().get(0)
+                )
+        );
+
+        TableColumnMemberName.setCellValueFactory(
+                cell -> new javafx.beans.property.SimpleStringProperty(
+                        cell.getValue().get(1)
+                )
+        );
+
+        TableColumnPhoneNumber.setCellValueFactory(
+                cell -> new javafx.beans.property.SimpleStringProperty(
+                        cell.getValue().get(2)
+                )
+        );
+
+        TableColumnEmail.setCellValueFactory(
+                cell -> new javafx.beans.property.SimpleStringProperty(
+                        cell.getValue().get(3)
+                )
+        );
+
+        // Borrowing History Table
+
+        TableColumnMemberIdB.setCellValueFactory(
+                cell -> new javafx.beans.property.SimpleStringProperty(
+                        cell.getValue().get(0)
+                )
+        );
+
+        TableColumnBookTitle.setCellValueFactory(
+                cell -> new javafx.beans.property.SimpleStringProperty(
+                        cell.getValue().get(1)
+                )
+        );
+
+        TableColumnIssueDate.setCellValueFactory(
+                cell -> new javafx.beans.property.SimpleStringProperty(
+                        cell.getValue().get(2)
+                )
+        );
+
+        TableColumnDueDate.setCellValueFactory(
+                cell -> new javafx.beans.property.SimpleStringProperty(
+                        cell.getValue().get(3)
+                )
+        );
+    }
 
 
 
@@ -252,6 +316,21 @@ public class MainDashboardController {
     @FXML
     void btnActionIssueBook(ActionEvent event) {
     issueBookController.issueBook(SelectMember.getValue(),SelectBook.getValue(),DateIssueDate.getValue(),DateDueDate.getValue());
+        Connection connection = dbDBMSconnection.getConnection();
+        String SQL = "select count(*) from returnbooks;";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()){
+                int count = resultSet.getInt(1);
+                CurrentlyBorrowedBooks_Dashboard.setText(String.valueOf(count));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+
+
     }
 
     @FXML
@@ -265,10 +344,17 @@ public class MainDashboardController {
         stage.show();
     }
 
+
     @FXML
     void btnActionSeacrh(ActionEvent event) {
 
+        manageMemberController.manageMembers(
+                txtSearch.getText(),
+                TableManageMembers
+        );
+
     }
+
 
     public void btnClearAddBookOnAction(ActionEvent actionEvent) {
     }
@@ -281,5 +367,13 @@ public class MainDashboardController {
 
     public void btnLoadMember(ActionEvent actionEvent) {
         loadBooks();
+    }
+
+    public void btnOnActionReturnBooks(ActionEvent actionEvent) {
+        returnBookController.returnBook(txtBorrowedBook.getText(), txtMemberName.getText(), DateBorrowedDate.getValue(), DateDueDateR.getValue(), DateReturnDate.getValue());
+    }
+
+    public void btnOnActionBorrowingHistory(ActionEvent actionEvent) {
+    borrowingHistory.borrowingHistory(TableBorrowingHistory);
     }
 }
